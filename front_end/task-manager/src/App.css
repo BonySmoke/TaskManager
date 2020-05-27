@@ -1,0 +1,260 @@
+@import url('https://fonts.googleapis.com/css?family=Roboto:500&display=swap');
+
+*{
+  box-sizing: border-box;
+  margin: 0px;
+  padding: 0px;
+}
+
+header{
+  width: 100%;
+  height: 80px;
+  background-color: #e8b425;
+  display: flex;
+  justify-content: space-around;
+  align-items: center;
+}
+
+nav li{
+  display: inline-block;
+  transition: all 0.3s ease 0s;
+  padding-top:20px;
+  color: white;
+  margin-right: 20px;
+  text-decoration: none;
+  font-size: 24px;
+  font-family: "Karma", sans-serif;
+  font-weight: 500;
+}
+
+nav li a{
+  color: white;
+  margin: 10px;
+  transition: all 0.3s ease 0s;
+}
+
+nav li :hover{
+  color: #a0f1fa;
+  background-color: coral;
+  padding: 8px;
+  border-radius: 5px;
+  text-decoration: none;
+}
+
+.search-box-task{
+  height: 50px;
+  padding: 10px;
+  border: 3px solid rgb(163, 133, 0);
+  border-radius: 5px;
+}
+
+.search-box a{
+  float: right;
+  color: rgb(235, 120, 75);
+  justify-content: center;
+  align-items: center;
+}
+
+.search-txt{
+  border: none;
+  background: none;
+  outline: none;
+  color: white;
+  font-size: 16px;
+}
+
+.user-login a{
+  font-size: 24px;
+  text-decoration: none;
+  color: white;
+}
+
+.user-login :hover{
+  border-bottom: 3px solid rgb(235, 120, 75);
+}
+
+.user-logout-account a{
+  padding-right: 10px;
+  font-size: 24px;
+  text-decoration: none;
+  color: white;
+}
+.user-logout-account :hover{
+  border-bottom: 3px solid rgb(235, 120, 75);
+}
+
+.auth-login-form{
+  position: absolute;
+  top: 30%;
+  left: 30%;
+  transform: translate(-50%, -50%);
+  margin: auto;
+  width: 500px;
+  height: 300px;
+  border: 2px solid black;
+  border-radius: 10px;
+  padding: 20px;
+  align-items: center;
+}
+
+.auth-signup-form{
+  position: absolute;
+  top: 40%;
+  left: 60%;
+  transform: translate(-50%, -50%);
+  margin: auto;
+  width: 500px;
+  height: 600px;
+  border: 2px solid black;
+  border-radius: 10px;
+  padding: 20px;
+  align-items: center;
+}
+
+.tasks{
+  display: flex;
+}
+
+.tasks-sidebar{
+  height: 300px;
+  background-color: rgb(55, 71, 80);
+  flex: 0 0 15%;
+  margin-right: 10px;
+  border-bottom-right-radius: 10px;
+  padding-top: 30px;
+  text-align: center;
+}
+
+.tasks-sidebar p{
+  font-size: 24px;
+  color: rgb(228, 222, 210);
+}
+
+.list-table {
+  flex: 1;
+  width: 80%;
+  float: right;  
+  padding-right: 10px;
+}
+
+.task-modal {
+  position: fixed;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%) scale(0);
+  border: 1px solid black;
+  z-index: 10;
+  background-color: white;
+  width: 600px;
+  max-width: 50%;
+  border-radius: 5px;
+}
+
+.task-modal.active{
+  transform: translate(-50%, -50%) scale(1);
+}
+
+.task-modal-header{
+  padding: 10px 10px;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  border-bottom: 1px solid rgb(53, 53, 53);
+}
+
+.task-modal-header .task-title{
+  font-size: 20px;
+}
+
+.task-modal-header .task-close-button{
+  cursor: pointer;
+  border: none;
+  outline: none;
+  background: none;
+  font-size: 1.50rem;
+  font-weight: bold;
+}
+
+.task-modal-body{
+  padding: 15px;
+}
+
+.task-modal-body textarea{
+  font-size: 18px;
+  min-height: 200px;
+}
+
+#task-overlay{
+  position: fixed;
+  opacity: 0;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  background-color: rgba(0, 0, 0, .5);
+  pointer-events: none;
+}
+
+#task-overlay.active{
+  opacity: 1;
+  pointer-events: all;
+}
+
+.task-detail-info {
+  margin: 30px;
+  padding: 30px;
+  display: flex;
+  box-shadow: 0px 0px 0px 4px rgba(209, 186, 137, 0.3);
+  border-radius: 10px;
+}
+
+.task-detail-left {
+  padding-top: 20px;
+  height: 800px;
+  flex: 0 0 70%;
+  text-align: center;
+  border: 1px solid black;
+}
+
+.task-detail-left p {
+  margin: auto;
+  width: 800px;
+  font-size: 24px;
+  border: 1px solid rgb(179, 165, 165);
+  border-radius: 5px;
+}
+
+.task-detail-widgets {
+  margin-left: 50px;
+  margin-top: 20px;
+  display: flex;
+}
+
+.task-detail-widgets label{
+  margin-top: 7px;
+  margin-right: 10px;
+  margin-left: 10px;
+  font-size: 20px;
+}
+
+.task-detail-widgets input {
+  width: 150px;
+}
+
+.task-detail-description {
+  margin-top: 30px;
+  margin-left: 50px;
+  width: 800px;
+}
+
+.task-detail-description textarea {
+  border: 2px solid rgb(112, 112, 114);
+  height: 500px;
+  max-height: 500px;
+  width: 1000px;
+  min-width: 300px;
+}
+
+.task-detail-right {
+  flex: 1
+}
