@@ -1,9 +1,11 @@
 import axios from 'axios';
-import { GET_TASKS, DELETE_TASK, VIEW_TASK, CREATE_TASK } from './actionTypes';
+import { GET_TASKS, DELETE_TASK, VIEW_TASK, CREATE_TASK, UPDATE_TASK } from './actionTypes';
 
 //GET all the tasks
+//backup: http://localhost:8000/tasks/
 export const getTasks = () => dispatch => {
-    axios.get('http://localhost:8000/tasks/')
+    console.log(localStorage)
+    axios.get(`http://localhost:8000/board-tasks/${localStorage.getItem('username')}/`)
     .then(res => {
         dispatch({
             type: GET_TASKS,
@@ -42,13 +44,14 @@ export const viewTask = id => dispatch => {
     })
 }
 
-export const createTask = (user, subject, description, priority, avarage_ETA) => dispatch => {
+export const createTask = (user, subject, description, priority, avarage_ETA, board) => dispatch => {
     axios.post('http://localhost:8000/tasks/', {
         user: user,
         subject: subject,
         description: description,
         priority: priority,
-        avarage_ETA: avarage_ETA
+        avarage_ETA: avarage_ETA,
+        board: board
     })
     .then(res => {
         dispatch({
@@ -61,13 +64,19 @@ export const createTask = (user, subject, description, priority, avarage_ETA) =>
     })
 }
 
-export const updateTask = (user, subject, description, priority, avarage_ETA) => dispatch => {
-    const id = user
-    axios.put(`http://localhost:8000/tasks/${id}`, {
+export const updateTask = (task_id, user, subject, description, priority, avarage_ETA, status) => dispatch => {
+    axios.put(`http://localhost:8000/tasks/${task_id}/`, {
         user: user,
         subject: subject,
         description: description,
         priority: priority,
-        avarage_ETA: avarage_ETA
+        avarage_ETA: avarage_ETA,
+        status: status
+    })
+    .then(res => {
+        dispatch({
+            type: UPDATE_TASK,
+            payload: res.data
+        })
     })
 }

@@ -1,4 +1,5 @@
 import * as actionTypes from './actionTypes';
+import {getUser} from './users'
 import axios from 'axios';
 
 export const authStart = () => {
@@ -79,6 +80,7 @@ export const authSignup = (username, email, password1, password2, firstname, las
             const expirationDate = new Date(new Date().getTime() + 3600 * 1000)
             localStorage.setItem('token', token); // since setState doesn't store the variable after the page is reloaded, it should be stored in localStorage
             localStorage.setItem('expirationDate', expirationDate);
+            dispatch(getUser());
             dispatch(authSuccess(token));
             dispatch(checkAuthTimeout(3600)); // session time is 1 hour
         })

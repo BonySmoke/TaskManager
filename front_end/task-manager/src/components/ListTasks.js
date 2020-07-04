@@ -27,7 +27,7 @@ class ListTasks extends React.Component{
     render(){
         return(
             <div className="tasks">
-                <CreateTask />
+                <CreateTask boards={this.props.user.boards}/>
                 <div className="list-table">
                 <Table responsive="sm" bordered>
                     <thead>
@@ -52,13 +52,13 @@ class ListTasks extends React.Component{
                                 {/* splits the creation date to have only the Year-Month-Day format  */}
                                 <td>{task.creation_date.split("T")[0]}</td>
                                 {
-                                    this.props.user.id === task.user.id ?
-                                    <div>
+                                    this.props.user.user.id === task.user.id ?
+                                    <React.Fragment>
                                     <td><button onClick={this.props.deleteTask.bind(this, task.id)}
                                     className="btn btn-danger"
                                     >Delete</button></td>
                                     <td><Link to={'tasks/' + task.id} className="btn btn-info">View</Link></td>
-                                    </div>
+                                    </React.Fragment>
                                     :
                                     <td><Link to={'tasks/' + task.id} className="btn btn-info">View</Link></td>
                                 }

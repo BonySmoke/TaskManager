@@ -5,12 +5,27 @@ from allauth.account.adapter import get_adapter
 from allauth.account.utils import setup_user_email
 from rest_framework import serializers
 from django.contrib.auth.models import User
-from .models import Profile
+from .models import Profile, Board
+
+class BoardSerializer(serializers.ModelSerializer):
+
+    class Meta:
+        model = Board
+        fields = ('id','key', 'title', 'creator')
+
+class UserSerializer(serializers.ModelSerializer):
+    
+    class Meta:
+        model = User
+        fields = ("id", "username", "first_name", "last_name", "email")
 
 class ProfileSerializer(serializers.ModelSerializer):
+    boards = BoardSerializer(many=True, read_only=True)
+    user = UserSerializer()
+    
     class Meta:
         model = Profile
-        fields = "__all__"
+        fields = ('user', 'job_title', 'boards')
 
 class SignupSerializer(RegisterSerializer):
     first_name = serializers.CharField(required=True)
@@ -26,16 +41,14 @@ class SignupSerializer(RegisterSerializer):
         }
 
     def save(self, request):
+        #overwrite the default user registration form
         adapter = get_adapter()
         user = adapter.new_user(request)
         self.cleaned_data = self.get_cleaned_data()
         adapter.save_user(request, user, self)
         setup_user_email(request, user, [])
         user.save()
+        #create a user profile
+        profile = Profile.objects.create(user=user)
+        profile.save()
         return user
-
-class UserSerializer(serializers.ModelSerializer):
-    
-    class Meta:
-        model = User
-        fields = ("id", "username", "first_name", "last_name", "email")

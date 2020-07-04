@@ -8,5 +8,6 @@ router.register('tasks', ListTasksView, basename='task')
 
 urlpatterns = [
     path('', views.home, name="tasks-home"),
+    path('board-tasks/<str:username>/', ListTasksView.as_view({'get':'list'})),
     path("", include(router.urls))
 ]

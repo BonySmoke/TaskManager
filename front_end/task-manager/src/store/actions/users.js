@@ -23,8 +23,10 @@ export const getUser = () => dispatch => {
             type: GET_USER,
             payload: res.data
         })
+        console.log(res.data.user.username)
+        localStorage.setItem('username', res.data.user.username)
     })
     .catch(err => {
-        console.log(err.response.data)
+        console.log(err)
     })
 }

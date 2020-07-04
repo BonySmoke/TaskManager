@@ -1,8 +1,8 @@
 from django.db import models
 from django.conf import settings
 # from django.contrib.auth.models import User
-
 from django.conf import settings
+from users.models import Board
 
 User = settings.AUTH_USER_MODEL
 
@@ -34,6 +34,7 @@ class Task(models.Model):
     priority =      models.CharField(max_length=32 ,choices=PRIORITIES, default='normal')
     avarage_ETA =   models.CharField(max_length=32, choices=ETA, default='24h')
     status =        models.CharField(max_length=32, choices=STATUS, default='ToDo')
+    board =         models.ForeignKey(Board, null=True, blank=True, on_delete=models.CASCADE)
 
     def __str__(self):
         return f'{self.subject} -> {self.user}'

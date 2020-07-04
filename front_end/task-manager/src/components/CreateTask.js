@@ -1,7 +1,6 @@
 import React from 'react';
 //Redux
 import {connect} from 'react-redux';
-import {getUser} from '../store/actions/users';
 import {createTask} from '../store/actions/tasks';
 //Bootstrap
 import {Form} from 'react-bootstrap';
@@ -25,13 +24,15 @@ class CreateTask extends React.Component{
     }
 
     onCreateSubmit = (event) => {
-        const user = this.props.user.id
+        const user = this.props.user.user.id
+        console.log(user)
         const subject = event.target.elements.subject.value
         const description = event.target.elements.description.value
         const priority = document.getElementById("select-priority")
         const average_ETA = document.getElementById("average_ETA")
-        console.log(priority.value)
-        this.props.onTaskCreate(user, subject, description, priority.value, average_ETA.value)
+        const board = document.getElementById("board-select").value
+        console.log(board)
+        this.props.onTaskCreate(user, subject, description, priority.value, average_ETA.value, board)
     }
 
     render(){
@@ -50,6 +51,16 @@ class CreateTask extends React.Component{
                 <button onClick={this.onClickClose} data-close-button className="task-close-button">&times;</button>
                 </div>
                 <div className="task-modal-body">
+
+                    <label>Board</label>
+                    <select className="custom-select mr-sm-2" id="board-select">
+                        <option value="" defaultValue>----</option>
+                        {this.props.boards && this.props.boards.map(board => (
+                            <React.Fragment key={board.id}>
+                            <option value={board.id}>{board.title}</option>
+                            </React.Fragment>
+                        ))}
+                    </select>
 
                     <label>Subject</label>
                     <input type="text" className="form-control" id="taskSummary" name="subject" />
@@ -86,8 +97,8 @@ const mapStateToProps = state => ({
 
 const mapDispatchToProps = dispatch => {
     return {
-        onTaskCreate: (user, subject, description, priority, average_ETA) => 
-        dispatch(createTask(user, subject, description, priority, average_ETA)),
+        onTaskCreate: (user, subject, description, priority, average_ETA, board) => 
+        dispatch(createTask(user, subject, description, priority, average_ETA, board)),
     }
 }
 

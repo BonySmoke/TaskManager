@@ -177,6 +177,8 @@ nav li :hover{
 
 .task-modal-body{
   padding: 15px;
+  max-height: calc(800px - 200px);
+  overflow-y: auto;
 }
 
 .task-modal-body textarea{
@@ -257,4 +259,8 @@ nav li :hover{
 
 .task-detail-right {
   flex: 1
+}
+
+.task-detail-widgets select{
+  max-width: 120px;
 }
