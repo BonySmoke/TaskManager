@@ -12,6 +12,7 @@ import { authCheckState } from './store/actions/auth';
 import Alerts from './components/Alerts';
 import ListTasks from './components/ListTasks'
 import TaskDetailView from './components/TaskDetailView'
+import Boards from './components/Boards'
 
 
 export class App extends React.Component {
@@ -39,6 +40,7 @@ export class App extends React.Component {
             <Route exact path="/login" component={Login}/>
             <Route exact path = "/tasks" component={ListTasks} />
             <Route exact path = "/tasks/:taskID/" component = {TaskDetailView} />
+            <Route exact path = "/boards" component = {Boards} />
           </Switch>
         </Router>
     )

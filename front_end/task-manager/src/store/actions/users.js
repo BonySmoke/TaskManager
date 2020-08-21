@@ -25,6 +25,7 @@ export const getUser = () => dispatch => {
         })
         console.log(res.data.user.username)
         localStorage.setItem('username', res.data.user.username)
+        localStorage.setItem('userId', res.data.user.id)
     })
     .catch(err => {
         console.log(err)

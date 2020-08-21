@@ -11,7 +11,12 @@ class BoardSerializer(serializers.ModelSerializer):
 
     class Meta:
         model = Board
-        fields = ('id','key', 'title', 'creator')
+        fields = ('id','key', 'title', 'creator', 'members', 'image')
+
+    def validate(self, data):
+        user = Profile.objects.get(user=data['creator'])
+        data['members'] = [user.user]
+        return data
 
 class UserSerializer(serializers.ModelSerializer):
     

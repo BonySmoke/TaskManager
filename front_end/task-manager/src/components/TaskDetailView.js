@@ -11,6 +11,13 @@ import { faEdit } from '@fortawesome/free-solid-svg-icons';
 
 class TaskDetailView extends React.Component{
 
+    state = {
+        editButtonTitle: "",
+        discardChangesTitle: "",
+        editButtonDescription: "",
+        discardChangesDescription: ""
+    }
+
     componentDidMount(){
         const id = this.props.match.params.taskID
         this.props.viewTask(id)
@@ -26,10 +33,47 @@ class TaskDetailView extends React.Component{
         const average_ETA = document.getElementById('average_ETA_task').value
         const user = this.props.user.id
         const priority = document.getElementById('priority').value
-        const subject = document.getElementById('subject').textContent
+        const subject = document.getElementById('subject').value
         const description = document.getElementById('description').value
         const status = document.getElementById('status').value
         this.props.updateTask(task_id, user, subject, description, priority, average_ETA, status)
+        this.setState({
+            editButtonTitle: "",
+            discardChangesTitle: "",
+            editButtonDescription: "",
+            discardChangesDescription: ""
+        })
+        event.preventDefault()
+    }
+
+    onTitleChange = (event) => {
+        this.setState({
+            editButtonTitle: <button type="submit" className="btn btn-info" onClick={this.onTaskChange}>Update</button>,
+            discardChangesTitle: <button type="submit" className="btn btn-warning" onClick={this.discardChangesTitle}>Discard Changes</button> 
+        })
+    }
+
+    onDescriptionChange = (event) => {
+        this.setState({
+            editButtonDescription: <button type="submit" className="btn btn-info" onClick={this.onTaskChange}>Update</button>,
+            discardChangesDescription: <button type="submit" className="btn btn-warning" onClick={this.discardChangesDescription}>Discard Changes</button>
+        })
+    }
+
+    discardChangesTitle = (event) => {
+        document.getElementById('subject').value = this.props.task.subject
+        this.setState({
+            editButtonTitle: "",
+            discardChangesTitle: "",
+        })
+    }
+
+    discardChangesDescription = () => {
+        document.getElementById('description').value = this.props.task.description
+        this.setState({
+            editButtonDescription: "",
+            discardChangesDescription: "",
+        })
     }
 
     render(){
@@ -37,8 +81,13 @@ class TaskDetailView extends React.Component{
             <div className="task-detail-info">
                 <div className="task-detail-left">
                     <label>Subject</label>
-                    <p id="subject">{this.props.task.subject}</p>
-                    <FontAwesomeIcon icon={faEdit} />
+                    <p>
+                        <input id="subject" name="subject" defaultValue={this.props.task.subject}
+                            onChange={this.onTitleChange}>
+                        </input>
+                    </p>
+                    {this.state.editButtonTitle}
+                    {this.state.discardChangesTitle}
 
                     <div className="task-detail-widgets">
                         <label>Priority</label>
@@ -85,8 +134,11 @@ class TaskDetailView extends React.Component{
                     <div className="task-detail-description">
                         <label>Description</label>
                         <textarea className="form-control" id="description" 
-                        value={this.props.task.description}>
+                            defaultValue={this.props.task.description}
+                            onChange={this.onDescriptionChange}>
                         </textarea>
+                        {this.state.editButtonDescription}
+                        {this.state.discardChangesDescription}
                     </div>
                 </div>
                 <div className="task-detail-right">

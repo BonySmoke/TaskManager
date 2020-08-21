@@ -226,6 +226,11 @@ nav li :hover{
   border-radius: 5px;
 }
 
+.task-detail-left p input {
+  width: 700px;
+  text-align: center;
+}
+
 .task-detail-widgets {
   margin-left: 50px;
   margin-top: 20px;
@@ -246,7 +251,13 @@ nav li :hover{
 .task-detail-description {
   margin-top: 30px;
   margin-left: 50px;
-  width: 800px;
+  width: 1200px;
+  display: flex;
+}
+
+.task-detail-description label {
+  font-size: 20px;
+  font: bold;
 }
 
 .task-detail-description textarea {
@@ -254,7 +265,13 @@ nav li :hover{
   height: 500px;
   max-height: 500px;
   width: 1000px;
-  min-width: 300px;
+}
+.task-detail-description button {
+  display: flex;
+  margin-right: 2px;
+  max-width: 150px;
+  max-height: 70px;
+  align-items: center;
 }
 
 .task-detail-right {
@@ -263,4 +280,69 @@ nav li :hover{
 
 .task-detail-widgets select{
   max-width: 120px;
+}
+
+.board-layout {
+  display: grid;
+  grid-template-columns: repeat(2, 1fr);
+  grid-template-rows: repeat(2, 100px);
+  grid-template-areas: 
+    "b-intro b-intro"
+    "b-create b-join"
+  ;
+  grid-gap: 1em;
+}
+
+.board-introduction {
+  grid-area: b-intro;
+  margin: 10px;
+  padding: 5px;
+  height: 70px;
+  background-color: rgb(246, 202, 144);
+  display: flex;
+  justify-content: center;
+}
+
+.board-introduction > .intro-content {
+  background-color: rgb(128, 236, 236);
+  margin-top: 10px;
+  width: 600px;
+  height: 50px;
+  text-align: center;
+  line-height: 50px;
+  border-radius: 10px;
+}
+
+.intro-content p {
+  font-size: 32px;
+}
+
+.board-create {
+  height: 500px;
+  background-color: rgba(62, 171, 175, 0.733);
+  grid-area: b-create;
+  margin-left: 20px;
+  border-radius: 10px;
+}
+
+.board-create > .b-create-top {
+  background-color: rgba(67, 120, 163, 0.931);
+  height: 75px;
+  border-top-right-radius: 10px;
+  border-top-left-radius: 10px;
+  display: flex; 
+  justify-content: center;
+}
+
+.b-create-top button {
+  width: 300px;
+  height: 50px;
+  font-size: 24px;
+}
+
+.board-join {
+  background-color: rgb(199, 231, 165);
+  grid-area: b-join;
+  margin-right: 20px;
+  border-radius: 10px;
 }

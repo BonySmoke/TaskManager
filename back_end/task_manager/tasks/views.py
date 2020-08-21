@@ -43,7 +43,6 @@ class ListTasksView(viewsets.ModelViewSet):
                 user_board = Profile.objects.get(user__username=self.kwargs['username'])
                 #adds the board keys to the array
                 boards = [item.key for item in user_board.boards.all()]
-                print(boards)
                 if len(boards):
                     self.queryset = self.queryset & \
                     Task.objects.filter(Q(board__key__in=boards) | \

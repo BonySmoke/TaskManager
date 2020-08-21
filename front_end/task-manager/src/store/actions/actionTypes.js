@@ -7,14 +7,17 @@ export const AUTH_LOGOUT = "AUTH_LOGOUT";
 // error + messages handling
 export const GET_ERROR = "GET_ERROR";
 
-// tasks actions
+// task actions
 export const GET_TASKS = "GET_TASKS";
 export const DELETE_TASK = "DELETE_TASK";
 export const VIEW_TASK = "VIEW_TASK";
 export const CREATE_TASK = "CREATE_TASK";
 export const UPDATE_TASK = "UPDATE_TASK"
 
-// users actions
-
+// user actions
 export const GET_USERS = "GET_USERS";
 export const GET_USER = "GET_USER";
+
+//board actions
+
+export const CREATE_BOARD = "CREATE_BOARD";

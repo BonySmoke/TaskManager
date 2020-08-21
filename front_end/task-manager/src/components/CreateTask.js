@@ -33,6 +33,7 @@ class CreateTask extends React.Component{
         const board = document.getElementById("board-select").value
         console.log(board)
         this.props.onTaskCreate(user, subject, description, priority.value, average_ETA.value, board)
+        this.history.push('/tasks')
     }
 
     render(){

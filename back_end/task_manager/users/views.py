@@ -1,6 +1,6 @@
 #django
 from django.http import HttpResponse
-from django.shortcuts import get_object_or_404
+from django.shortcuts import get_object_or_404, redirect
 from django.contrib.auth.models import User
 from .models import Profile, Board
 from .serializers import ProfileSerializer, UserSerializer, BoardSerializer
@@ -10,14 +10,12 @@ from rest_framework import viewsets
 from rest_framework.views import APIView
 from rest_framework.permissions import IsAuthenticated, AllowAny
 from rest_framework.response import Response
+from rest_framework.decorators import api_view
 
 
 def home(request):
-    # user_board = UserBoard.objects.first()
-    # print("Info from User views.py")
-    # if user_board.user:
-    #     print(user_board.board)
-    #     print(user_board.user.all())
+    board = Board.objects.last()
+    board.members.add(3)
     return HttpResponse("<h1>User Test</h1>")
 
 #ViewSet to get all the users
@@ -35,6 +33,45 @@ class BoardViewSet(viewsets.ModelViewSet):
 
     queryset = Board.objects.all()
     serializer_class = BoardSerializer
+
+    def create(self, request):
+        serializer = self.serializer_class(data=request.data)
+        if serializer.is_valid(self):
+            serializer.save()
+            return redirect('/users/boards')
+        else:
+            return Response(serializer.errors)
+
+@api_view(['GET', 'POST'])
+def join_board(request, key, id):
+    '''
+    adds a user to the board if it's not there
+    '''
+    board = get_object_or_404(Board, key=key)
+    user = get_object_or_404(User, id=id)
+    exists = [i for i in board.members.all() if i.id == user.id]
+    if not len(exists):
+        board.members.add(user.id)
+        return Response({'message': "the user has been added"})
+    return Response({'message': 'the user is already in the board'})
+
+@api_view(['GET', 'POST'])
+def leave_board(request, key, id):
+    '''
+    removes a member from a board if such exists
+    destroys the board if the creator is leaving
+    '''
+    board = get_object_or_404(Board, key=key)
+    user = get_object_or_404(User, id=id)
+    exists = [i for i in board.members.all() if i.id == user.id]
+    if len(exists):
+        if user.id == board.creator.id:
+            board.delete()
+            message = f'{board.title} has been removed'
+            return Response({'message': message})
+        board.members.remove(user.id)
+        return Response({'message': "the user has been removed"})
+    return Response({'message': 'the user is not in the board'})
 
 class GetUser(APIView):
 

@@ -4,7 +4,6 @@ import { GET_TASKS, DELETE_TASK, VIEW_TASK, CREATE_TASK, UPDATE_TASK } from './a
 //GET all the tasks
 //backup: http://localhost:8000/tasks/
 export const getTasks = () => dispatch => {
-    console.log(localStorage)
     axios.get(`http://localhost:8000/board-tasks/${localStorage.getItem('username')}/`)
     .then(res => {
         dispatch({
