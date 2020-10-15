@@ -318,7 +318,9 @@ nav li :hover{
 }
 
 .board-create {
-  height: 500px;
+  min-height: 700px;
+  overflow-y: auto;
+  max-height: calc(800px - 200px);
   background-color: rgba(62, 171, 175, 0.733);
   grid-area: b-create;
   margin-left: 20px;
@@ -345,4 +347,28 @@ nav li :hover{
   grid-area: b-join;
   margin-right: 20px;
   border-radius: 10px;
+}
+
+.board-list {
+  min-height: 30px;
+  border-radius: 5px;
+}
+
+#board-list > ul:nth-child(odd){
+  background-color: darkcyan;
+}
+
+#board-list ul {
+  display: flex;
+  justify-content: space-around;
+}
+
+#board-list ul.open {
+  background-color: darkgoldenrod;
+  min-height: 300px;
+}
+
+.content {
+  display: none;
+  overflow: hidden;
 }

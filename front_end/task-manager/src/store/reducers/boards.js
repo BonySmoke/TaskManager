@@ -1,4 +1,4 @@
-import {CREATE_BOARD} from "../actions/actionTypes"
+import {CREATE_BOARD, GET_BOARDS} from "../actions/actionTypes"
 
 const initialState = {
     boards: [],
@@ -11,6 +11,12 @@ const boardsReducer = (state=initialState, action) => {
             return {
                 ...state,
                 boards: state.boards.push(action.payload),
+                board: {}
+            }
+        case GET_BOARDS:
+            return {
+                ...state,
+                boards: action.payload,
                 board: {}
             }
         default:

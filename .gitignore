@@ -3,3 +3,5 @@ django_env
 env
 *.sqlite3
 migrations
+media
+__pycache__

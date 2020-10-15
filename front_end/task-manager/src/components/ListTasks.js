@@ -38,6 +38,7 @@ class ListTasks extends React.Component{
                             <th>ETA</th>
                             <th>User</th>
                             <th>Creation Date</th>
+                            <th>Board</th>
                             <th>Options</th>
                         </tr>
                     </thead>
@@ -51,6 +52,7 @@ class ListTasks extends React.Component{
                                 <td>{task.user.username}</td>
                                 {/* splits the creation date to have only the Year-Month-Day format  */}
                                 <td>{task.creation_date.split("T")[0]}</td>
+                                <td>{task.board.title}</td>
                                 {
                                     this.props.user.user.id === task.user.id ?
                                     <React.Fragment>

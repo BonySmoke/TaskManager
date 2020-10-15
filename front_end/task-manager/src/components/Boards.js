@@ -1,5 +1,6 @@
 import React from 'react';
-import CreateBoard from './CreateBoard'
+import CreateBoard from './CreateBoard';
+import ListBoards from './ListBoards';
 
 class Board extends React.Component {
 
@@ -16,7 +17,7 @@ class Board extends React.Component {
                 <CreateBoard />
                 
                 <div className="b-create-content">
-                    <p>Content over here</p>
+                    <ListBoards />
                 </div>
             </div>
         

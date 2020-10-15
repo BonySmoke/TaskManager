@@ -19,5 +19,5 @@ export const GET_USERS = "GET_USERS";
 export const GET_USER = "GET_USER";
 
 //board actions
-
 export const CREATE_BOARD = "CREATE_BOARD";
+export const GET_BOARDS = "GET_BOARDS";

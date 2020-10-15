@@ -34,6 +34,28 @@ class BoardViewSet(viewsets.ModelViewSet):
     queryset = Board.objects.all()
     serializer_class = BoardSerializer
 
+    def get_queryset(self, **kwargs):
+        try:
+            if self.kwargs['username']:
+                user = Profile.objects.get(user__username=self.kwargs['username'])
+                boards = [item.key for item in user.boards.all()]
+                if len(boards):
+                    print(boards)
+                    self.queryset = self.queryset & Board.objects.filter(key__in=boards)
+                return self.queryset
+            else:
+                return []
+        except Exception:
+            return None
+        
+    def list(self, request, *args, **kwargs):
+        if self.get_queryset():
+            queryset = self.get_queryset().order_by('-creation_date')
+            serializer = BoardSerializer(queryset, many=True)
+            return Response(serializer.data)
+        return Response({"message":"no boards were found"})
+            
+
     def create(self, request):
         serializer = self.serializer_class(data=request.data)
         if serializer.is_valid(self):

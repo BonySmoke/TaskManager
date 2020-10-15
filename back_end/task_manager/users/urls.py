@@ -19,7 +19,8 @@ urlpatterns = [
     path("", include(router.urls)),
     path('getuser/<token>', GetUser.as_view(), name='getuser'),
     path('joinboard/<str:key>/<int:id>', join_board, name='join-board'),
-    path('leaveboard/<str:key>/<int:id>', leave_board, name='leave-board')
+    path('leaveboard/<str:key>/<int:id>', leave_board, name='leave-board'),
+    path('board-users/<str:username>', BoardViewSet.as_view({'get':'list'}))
 ]
 
 if settings.DEBUG:
