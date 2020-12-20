@@ -21,3 +21,4 @@ export const GET_USER = "GET_USER";
 //board actions
 export const CREATE_BOARD = "CREATE_BOARD";
 export const GET_BOARDS = "GET_BOARDS";
+export const JOIN_BOARD = "JOIN_BOARD";

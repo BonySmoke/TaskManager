@@ -6,7 +6,7 @@ from .views import (
     UsersViewSet, 
     BoardViewSet, 
     GetUser, 
-    home, join_board, leave_board)
+    home, join_board, leave_board, change_board_owner)
 from rest_framework.routers import DefaultRouter
 
 router = DefaultRouter()
@@ -20,6 +20,7 @@ urlpatterns = [
     path('getuser/<token>', GetUser.as_view(), name='getuser'),
     path('joinboard/<str:key>/<int:id>', join_board, name='join-board'),
     path('leaveboard/<str:key>/<int:id>', leave_board, name='leave-board'),
+    path('changeowner/<str:key>/<int:old_owner>/<int:new_owner>', change_board_owner, name='change-owner'),
     path('board-users/<str:username>', BoardViewSet.as_view({'get':'list'}))
 ]
 

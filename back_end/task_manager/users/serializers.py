@@ -7,7 +7,15 @@ from rest_framework import serializers
 from django.contrib.auth.models import User
 from .models import Profile, Board
 
+class UserSerializer(serializers.ModelSerializer):
+    
+    class Meta:
+        model = User
+        fields = ("id", "username", "first_name", "last_name", "email")
+
 class BoardSerializer(serializers.ModelSerializer):
+
+    creator = UserSerializer()
 
     class Meta:
         model = Board
@@ -17,12 +25,6 @@ class BoardSerializer(serializers.ModelSerializer):
         user = Profile.objects.get(user=data['creator'])
         data['members'] = [user.user]
         return data
-
-class UserSerializer(serializers.ModelSerializer):
-    
-    class Meta:
-        model = User
-        fields = ("id", "username", "first_name", "last_name", "email")
 
 class ProfileSerializer(serializers.ModelSerializer):
     boards = BoardSerializer(many=True, read_only=True)

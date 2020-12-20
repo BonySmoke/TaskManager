@@ -1,6 +1,7 @@
 import React from 'react';
 import CreateBoard from './CreateBoard';
 import ListBoards from './ListBoards';
+import JoinBoard from './JoinBoard';
 
 class Board extends React.Component {
 
@@ -22,7 +23,7 @@ class Board extends React.Component {
             </div>
         
             <div className="board-join">
-                <h1>Hello</h1>
+                <JoinBoard />
             </div>
         </div>
         )

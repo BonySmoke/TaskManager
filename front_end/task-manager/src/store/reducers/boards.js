@@ -1,8 +1,9 @@
-import {CREATE_BOARD, GET_BOARDS} from "../actions/actionTypes"
+import {CREATE_BOARD, GET_BOARDS, JOIN_BOARD} from "../actions/actionTypes"
 
 const initialState = {
     boards: [],
-    board: {}
+    board: {},
+    message: ''
 }
 
 const boardsReducer = (state=initialState, action) => {
@@ -18,6 +19,11 @@ const boardsReducer = (state=initialState, action) => {
                 ...state,
                 boards: action.payload,
                 board: {}
+            }
+        case JOIN_BOARD:
+            return {
+                ...state,
+                message: action.payload
             }
         default:
             return state

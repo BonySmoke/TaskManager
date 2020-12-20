@@ -39,10 +39,13 @@ class BoardViewSet(viewsets.ModelViewSet):
             if self.kwargs['username']:
                 user = Profile.objects.get(user__username=self.kwargs['username'])
                 boards = [item.key for item in user.boards.all()]
+                print(boards)
                 if len(boards):
                     print(boards)
                     self.queryset = self.queryset & Board.objects.filter(key__in=boards)
-                return self.queryset
+                    return self.queryset
+                else:
+                    return []
             else:
                 return []
         except Exception:
@@ -53,16 +56,23 @@ class BoardViewSet(viewsets.ModelViewSet):
             queryset = self.get_queryset().order_by('-creation_date')
             serializer = BoardSerializer(queryset, many=True)
             return Response(serializer.data)
-        return Response({"message":"no boards were found"})
+        return Response({"message":"empty"})
             
 
     def create(self, request):
-        serializer = self.serializer_class(data=request.data)
-        if serializer.is_valid(self):
-            serializer.save()
-            return redirect('/users/boards')
-        else:
-            return Response(serializer.errors)
+        try:
+            serializer = self.serializer_class(data=request.data)
+            profile = Profile.objects.get(user=request.data['creator'])
+            print(profile.user)
+            if serializer.is_valid(self):
+                serializer.save()
+                board = Board.objects.filter(creator=request.data['creator']).last()
+                profile.boards.add(board)
+                return redirect('/users/boards')
+            else:
+                return Response(serializer.errors)
+        except Exception as e:
+            return Response({'error':e.args})
 
 @api_view(['GET', 'POST'])
 def join_board(request, key, id):
@@ -74,6 +84,8 @@ def join_board(request, key, id):
     exists = [i for i in board.members.all() if i.id == user.id]
     if not len(exists):
         board.members.add(user.id)
+        profile = get_object_or_404(Profile, user=id)
+        profile.boards.add(board)
         return Response({'message': "the user has been added"})
     return Response({'message': 'the user is already in the board'})
 
@@ -94,6 +106,32 @@ def leave_board(request, key, id):
         board.members.remove(user.id)
         return Response({'message': "the user has been removed"})
     return Response({'message': 'the user is not in the board'})
+
+@api_view(['GET', 'POST'])
+def change_board_owner(request, key, old_owner, new_owner):
+    '''
+    changes the owner of a board
+    '''
+    try:
+        board = get_object_or_404(Board, key=key)
+        new_owner_user = get_object_or_404(User, id=new_owner)
+        new_owner_profile = get_object_or_404(Profile, user=new_owner_user)
+        if board.creator.id == old_owner:
+            #add a board to the profile of the new owner
+            new_owner_profile.boards.add(board)
+            #update the board owner
+            board.creator = new_owner_user
+            #add the new owner to the members if they are not there already
+            exists = [member for member in board.members.all() if member.id == new_owner_user.id]
+            if not len(exists):
+                board.members.add(new_owner_user)
+            board.save()
+            return Response({'message':f'The {board.title} Board owner has been changed.'})
+        else:
+            print(board.creator, old_owner)
+            return Response({'message':f'The {board.title} Board owner could not be updated'})
+    except Exception as e:
+        return Response({'message':f'An {e.args} error occurred while processing your request.'})
 
 class GetUser(APIView):
 

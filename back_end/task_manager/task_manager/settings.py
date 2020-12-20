@@ -1,6 +1,6 @@
 import os
 
-#cd Programming\TaskManager\back_end && .\env\Scripts\activate && cd task_manager
+#cd Programming\TaskManager\back_end && .\django_env\Scripts\activate && cd task_manager
 
 # Build paths inside the project like this: os.path.join(BASE_DIR, ...)
 BASE_DIR = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
@@ -10,7 +10,7 @@ BASE_DIR = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
 # See https://docs.djangoproject.com/en/3.0/howto/deployment/checklist/
 
 # SECURITY WARNING: keep the secret key used in production secret!
-SECRET_KEY = os.environ.get('TASK_MANAGER_SECRET')
+SECRET_KEY = '))fb6o#7h-v9&at2e%s9jfy@(#v8ey(vr+ks%kp962e7+1#m9s'
 
 # SECURITY WARNING: don't run with debug turned on in production!
 DEBUG = True

@@ -26,22 +26,28 @@ class ListBoards extends React.Component{
     }
 
     render(){
+        const emptyBoardsMessage = 'empty'
         return(
             <div className='board-list' id='board-list'>
-                {this.props.boards.map(board => (
-                    <ul key={board.id} data-key={board.id} style={{'listStyleType': 'none', 'padding': '10px'}}>
-                        <li>{board.title}</li>
-                        <li>{board.creator}</li>
-                        <FontAwesomeIcon icon={faArrowAltCircleDown} onClick={()=> this.handleArrowClick(board.id)}/>
-                        <li className='content'>
-                            <ul>
-                                <li>
-                                    {board.key}
+                {
+                    this.props.boards.message !== emptyBoardsMessage ?
+                        <React.Fragment>
+                        {this.props.boards.map(board => (
+                            <ul key={board.id} data-key={board.id} style={{'listStyleType': 'none', 'padding': '10px'}}>
+                                <li>{board.title}</li>
+                                <li>{board.creator.username}</li>
+                                <FontAwesomeIcon icon={faArrowAltCircleDown} onClick={()=> this.handleArrowClick(board.id)}/>
+                                <li className='content'>
+                                    <ul>
+                                        <li>{board.key}</li>
+                                    </ul>
                                 </li>
                             </ul>
-                        </li>
-                    </ul>
-                ))}
+                        ))}
+                        </React.Fragment>
+                    :
+                    <React.Fragment></React.Fragment>
+                }
             </div>
         )
     }

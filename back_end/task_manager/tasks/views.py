@@ -47,16 +47,21 @@ class ListTasksView(viewsets.ModelViewSet):
                     self.queryset = self.queryset & \
                     Task.objects.filter(Q(board__key__in=boards) | \
                     Q(board=None) & Q(user__username=self.kwargs['username']))
-                return self.queryset
+                    return self.queryset
+                else:
+                    self.queryset = None
+                    return self.queryset
             else:
                 return self.queryset
         except Exception:
             return self.queryset
 
     def list(self, request, *args, **kwargs):
-        queryset = self.get_queryset().order_by('-creation_date')
-        serializer = TaskSerializer(queryset, many=True)
-        return Response(serializer.data)
+        if self.get_queryset():
+            queryset = self.get_queryset().order_by('-creation_date')
+            serializer = TaskSerializer(queryset, many=True)
+            return Response(serializer.data)
+        return Response({"message":"empty"})
 
     def retrieve(self, request, pk=None):
         task = get_object_or_404(self.queryset, pk=pk)
