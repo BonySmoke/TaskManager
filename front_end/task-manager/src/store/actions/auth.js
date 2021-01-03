@@ -54,6 +54,7 @@ export const authLogin = (username, password) => {
             localStorage.setItem('token', token); // since setState doesn't store the variable after the page is reloaded, it should be stored in localStorage
             localStorage.setItem('expirationDate', expirationDate);
             dispatch(authSuccess(token));
+            dispatch(getUser());
             dispatch(checkAuthTimeout(3600)); // session time is 1 hour
         })
         .catch(error => {

@@ -4,7 +4,7 @@ import propTypes from 'prop-types';
 import {Link, Redirect} from "react-router-dom";
 //Redux
 import {connect} from 'react-redux';
-import {getTasks, deleteTask, viewTask} from '../store/actions/tasks';
+import {getTasks, deleteTask, viewTask, filterTaskTitle} from '../store/actions/tasks';
 import {getUser} from '../store/actions/users';
 //Bootstrap
 import {Table} from 'react-bootstrap';
@@ -13,10 +13,27 @@ import CreateTask from './CreateTask';
 
 class ListTasks extends React.Component{
 
+    constructor(props){
+        super(props);
+        this.state = {
+            taskFiltered: false,
+        }
+    }
 
     componentDidMount() {
-        this.props.getUser()
-        this.props.getTasks()
+        this.props.getUser();
+        this.props.getTasks();
+    }
+
+    filterTasks = () => {
+        const checkedBoxes = document.querySelectorAll('input[type=checkbox]:checked');
+        let titles = new Array();
+        for(let i=0; i<checkedBoxes.length; i++){
+            let item = checkedBoxes[i].defaultValue;
+            titles.push(item);
+        };
+        this.props.filterTaskTitle(titles, this.props.tasks);
+        this.setState({taskFiltered: true});
     }
 
 
@@ -26,6 +43,24 @@ class ListTasks extends React.Component{
         return(
             <div className="tasks">
                 <CreateTask boards={this.props.user.boards}/>
+                        {
+                        this.props.tasks.message !== emptyTasksResponse ?
+                        <div className="taskFilters">
+                            <p>Title Filter</p>
+                            <ul>
+                                {this.props.tasks.map(task => (
+                                    <li key={task.id}>
+                                        <input type="checkbox" value={task.board.title}/>{task.board.title}</li>
+                                ))}
+                            </ul>
+                            <p>Date Filter</p>
+                            <input type="text" placeholder="enter the date"/> <br/>
+                            <button onClick={this.filterTasks}>Filter</button>
+                        </div>
+                        :
+                        <React.Fragment></React.Fragment>
+                        
+                        }
                 <div className="list-table">
                 <Table responsive="sm" bordered>
                     <thead>
@@ -82,8 +117,8 @@ const mapStateToProps = state => ({
     tasks: state.tasks.tasks,
 })
 
-// const mapDispatchToProps = dispatch => ({
-    
-// })
+const mapDispatchToProps = dispatch => ({
+    onFilterTasksTitle: (title, tasks) => dispatch(filterTaskTitle(title, tasks))
+})
 
-export default connect(mapStateToProps, {getTasks, deleteTask, getUser, viewTask})(ListTasks);
+export default connect(mapStateToProps, {getTasks, deleteTask, getUser, viewTask, filterTaskTitle})(ListTasks);

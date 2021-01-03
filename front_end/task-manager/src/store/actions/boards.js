@@ -15,7 +15,7 @@ export const createBoard = (form_data) => dispatch => {
         )
     })
     .catch(err => {
-        console.log(err.response.data)
+        console.log(err)
     })
 }
 

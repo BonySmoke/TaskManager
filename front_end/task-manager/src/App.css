@@ -282,6 +282,14 @@ nav li :hover{
   max-width: 120px;
 }
 
+.taskFilters {
+  min-width: 150px;
+}
+
+.taskFilters p {
+  font-size: 20px;
+}
+
 .board-layout {
   display: grid;
   grid-template-columns: repeat(2, 1fr);

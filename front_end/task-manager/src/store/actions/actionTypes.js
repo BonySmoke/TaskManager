@@ -12,7 +12,8 @@ export const GET_TASKS = "GET_TASKS";
 export const DELETE_TASK = "DELETE_TASK";
 export const VIEW_TASK = "VIEW_TASK";
 export const CREATE_TASK = "CREATE_TASK";
-export const UPDATE_TASK = "UPDATE_TASK"
+export const UPDATE_TASK = "UPDATE_TASK";
+export const FILTER_TASKS_TITLE = "FILTER_TASKS_TITLE"; //filter tasks by their title
 
 // user actions
 export const GET_USERS = "GET_USERS";
@@ -22,3 +23,6 @@ export const GET_USER = "GET_USER";
 export const CREATE_BOARD = "CREATE_BOARD";
 export const GET_BOARDS = "GET_BOARDS";
 export const JOIN_BOARD = "JOIN_BOARD";
+
+//general
+export const TASK_ERROR = "TASK_ERROR";

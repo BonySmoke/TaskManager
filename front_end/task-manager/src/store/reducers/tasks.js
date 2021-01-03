@@ -1,8 +1,8 @@
-import {GET_TASKS, DELETE_TASK, VIEW_TASK, CREATE_TASK, UPDATE_TASK} from '../actions/actionTypes';
+import {GET_TASKS, DELETE_TASK, VIEW_TASK, CREATE_TASK, UPDATE_TASK, FILTER_TASKS_TITLE} from '../actions/actionTypes';
 
 const initialState = {
     tasks: [],
-    task: {}
+    task: {},
 }
 
 const tasksReducer = (state=initialState, action) => {
@@ -34,6 +34,11 @@ const tasksReducer = (state=initialState, action) => {
             return {
                 ...state,
                 task: action.payload
+            }
+        case FILTER_TASKS_TITLE:
+            return {
+                ...state,
+                tasks: action.payload
             }
         default:
             return state

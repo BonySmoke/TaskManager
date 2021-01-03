@@ -39,9 +39,7 @@ class BoardViewSet(viewsets.ModelViewSet):
             if self.kwargs['username']:
                 user = Profile.objects.get(user__username=self.kwargs['username'])
                 boards = [item.key for item in user.boards.all()]
-                print(boards)
                 if len(boards):
-                    print(boards)
                     self.queryset = self.queryset & Board.objects.filter(key__in=boards)
                     return self.queryset
                 else:
@@ -62,17 +60,19 @@ class BoardViewSet(viewsets.ModelViewSet):
     def create(self, request):
         try:
             serializer = self.serializer_class(data=request.data)
+            print(request.data)
             profile = Profile.objects.get(user=request.data['creator'])
-            print(profile.user)
             if serializer.is_valid(self):
                 serializer.save()
                 board = Board.objects.filter(creator=request.data['creator']).last()
                 profile.boards.add(board)
+                print('the board was created')
                 return redirect('/users/boards')
             else:
                 return Response(serializer.errors)
         except Exception as e:
-            return Response({'error':e.args})
+            print(f'something very bad happened {e.args}')
+            return Response({'data':e.args})
 
 @api_view(['GET', 'POST'])
 def join_board(request, key, id):

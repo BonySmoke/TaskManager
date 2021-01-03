@@ -36,7 +36,7 @@ class Nav extends React.Component {
               </nav>
               <div className="search-box-task">
                 <input className="search-txt" type="text" name="" placeholder="Looking for a task?" />
-                <Link to="/tasksearch"> <FontAwesomeIcon icon={faSearch} /> </Link>
+                <Link to="/tasks"> <FontAwesomeIcon icon={faSearch} /> </Link>
               </div>
                 <div className="user-logout-account">
                   <Link to="/account"><FontAwesomeIcon icon={faUserCircle} />Account</Link>

@@ -1,5 +1,6 @@
 import axios from 'axios';
-import { GET_TASKS, DELETE_TASK, VIEW_TASK, CREATE_TASK, UPDATE_TASK } from './actionTypes';
+import { GET_TASKS, DELETE_TASK, VIEW_TASK, 
+    CREATE_TASK, UPDATE_TASK, FILTER_TASKS_TITLE, TASK_ERROR } from './actionTypes';
 
 //GET all the tasks
 //backup: http://localhost:8000/tasks/
@@ -78,4 +79,24 @@ export const updateTask = (task_id, user, subject, description, priority, avarag
             payload: res.data
         })
     })
+}
+
+export const filterTaskTitle = (titles, tasks) => dispatch => {
+    try{
+        let endResult = [];
+        for(let i=0; i<titles.length; i++){
+            tasks.map(task => {
+                task.board.title !== titles[i] ? delete tasks[task.id] : endResult[task.id] = task
+            });
+        }
+        dispatch({
+            type: FILTER_TASKS_TITLE,
+            payload: endResult
+        })
+    }catch{
+        dispatch({
+            type: TASK_ERROR,
+            message: 'Nothing for now'
+        })
+    }
 }

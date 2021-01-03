@@ -11,10 +11,11 @@ const boardsReducer = (state=initialState, action) => {
         case CREATE_BOARD:
             return {
                 ...state,
-                boards: state.boards.push(action.payload),
+                boards: action.payload,
                 board: {}
             }
         case GET_BOARDS:
+            console.log(state.boards instanceof Array)
             return {
                 ...state,
                 boards: action.payload,
