@@ -35,6 +35,19 @@ class Task(models.Model):
     avarage_ETA =   models.CharField(max_length=32, choices=ETA, default='24h')
     status =        models.CharField(max_length=32, choices=STATUS, default='ToDo')
     board =         models.ForeignKey(Board, null=True, blank=True, related_name='board', on_delete=models.CASCADE)
+    comments =      models.ManyToManyField('Comment', related_name='comments', blank=True)
 
     def __str__(self):
         return f'{self.subject} -> {self.user}'
+
+class Comment(models.Model):
+
+    user =          models.ForeignKey(User, related_name='comments', null=True, on_delete=models.CASCADE)
+    task =          models.ForeignKey('Task', on_delete=models.CASCADE)
+    description =   models.CharField(max_length=500)
+    likes =         models.ManyToManyField(User, related_name='comment_likes', blank=True)
+    date_posted =   models.DateTimeField(auto_now_add=True)
+    last_edited =   models.DateTimeField(auto_now=True)
+
+    def __str__(self):
+        return self.description

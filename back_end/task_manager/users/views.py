@@ -3,7 +3,7 @@ from django.http import HttpResponse
 from django.shortcuts import get_object_or_404, redirect
 from django.contrib.auth.models import User
 from .models import Profile, Board
-from .serializers import ProfileSerializer, UserSerializer, BoardSerializer
+from .serializers import ProfileSerializer, UserSerializer, BoardSerializer, BoardCreateSerializer
 #django-rest-framework
 from rest_framework.authtoken.models import Token
 from rest_framework import viewsets
@@ -34,6 +34,13 @@ class BoardViewSet(viewsets.ModelViewSet):
     queryset = Board.objects.all()
     serializer_class = BoardSerializer
 
+    def get_serializer_class(self):
+        print(self.request)
+        if self.request.method == 'POST':
+            return BoardCreateSerializer
+        else:
+            return BoardSerializer
+
     def get_queryset(self, **kwargs):
         try:
             if self.kwargs['username']:
@@ -52,15 +59,16 @@ class BoardViewSet(viewsets.ModelViewSet):
     def list(self, request, *args, **kwargs):
         if self.get_queryset():
             queryset = self.get_queryset().order_by('-creation_date')
-            serializer = BoardSerializer(queryset, many=True)
+            serializer = self.serializer_class(queryset, many=True)
             return Response(serializer.data)
         return Response({"message":"empty"})
             
 
     def create(self, request):
         try:
-            serializer = self.serializer_class(data=request.data)
-            print(request.data)
+            print('method')
+            print(self.serializer_class)
+            serializer = BoardCreateSerializer(data=request.data)
             profile = Profile.objects.get(user=request.data['creator'])
             if serializer.is_valid(self):
                 serializer.save()

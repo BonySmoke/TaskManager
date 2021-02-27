@@ -7,11 +7,12 @@ from django.db.models import Q
 from rest_framework.decorators import api_view
 from rest_framework.response import Response
 from rest_framework import status, viewsets
+from rest_framework.views import APIView
 # Models
-from .models import Task
+from .models import Task, Comment
 from users.models import Profile, Board
 #serializers
-from .serializers import TaskSerializer, TaskCreateSerializer
+from .serializers import TaskSerializer, TaskCreateSerializer, CommentSerializer
 
 from rest_framework.generics import ListAPIView
 
@@ -73,3 +74,41 @@ class ListTasksView(viewsets.ModelViewSet):
         if serializer.is_valid():
             serializer.save()
         return Response(serializer.data)
+
+class GetComments(APIView):
+
+    def get_object(self, task_id):
+        try:
+            print(task_id)
+            self.comments = Comment.objects.filter(task=task_id)
+            return self.comments
+        except Exception:
+            raise Http404
+
+    def get(self, request, task_id):
+        '''
+        get all comments for a specific task
+        '''
+        self.comments = self.get_object(task_id)
+        print(self.comments)
+        self.serializer = CommentSerializer(self.comments, many=True)
+        return Response(self.serializer.data)
+
+class CreateComment(APIView):
+
+    serializer_class = CommentSerializer
+
+    def post(self, request):
+        '''
+        create a comment and append it to the corresponding task
+        '''
+        self.serializer = CommentSerializer(data=request.data)
+        print(request.data)
+        if self.request.POST and self.serializer.is_valid():
+            self.task = get_object_or_404(Task, pk=request.data['task'])
+            self.comment = self.serializer.save()
+            #add the comment to the task
+            self.task.comments.add(self.comment.id)
+            # self.serializer.likes.set()
+            return Response(self.serializer.data, status=status.HTTP_201_CREATED)
+        return Response(self.serializer.errors, status=status.HTTP_400_BAD_REQUEST)

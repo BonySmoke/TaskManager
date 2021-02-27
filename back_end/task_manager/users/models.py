@@ -22,17 +22,17 @@ class Board(models.Model):
     def __str__(self):
         return f'{self.title}'
 
-    def save(self, *args, **kwargs):
-        '''
-        Resize the image to 300 px
-        '''
-        super(Board, self).save(*args, **kwargs)
-        img = Image.open(self.image.path)
+    # def save(self, *args, **kwargs):
+    #     '''
+    #     Resize the image to 300 px
+    #     '''
+    #     super(Board, self).save(*args, **kwargs)
+    #     img = Image.open(self.image.path)
 
-        if img.height > 300 or img.width > 300:
-            output = (300, 300)
-            img.thumbnail(output)
-            img.save(self.image.path)
+    #     if img.height > 300 or img.width > 300:
+    #         output = (300, 300)
+    #         img.thumbnail(output)
+    #         img.save(self.image.path)
 
 def pre_save_create_board_key(sender, instance, *args, **kwargs):
     if not instance.key:

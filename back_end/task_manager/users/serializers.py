@@ -21,7 +21,15 @@ class BoardSerializer(serializers.ModelSerializer):
         model = Board
         fields = ('id','key', 'title', 'creator', 'members', 'image')
 
+class BoardCreateSerializer(serializers.ModelSerializer):
+
+    class Meta:
+        model = Board
+        fields = ('id','key', 'title', 'creator', 'members', 'image')
+
     def validate(self, data):
+        print('data')
+        print(data)
         user = Profile.objects.get(user=data['creator'])
         data['members'] = [user.user]
         return data
