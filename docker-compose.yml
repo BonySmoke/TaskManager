@@ -1,0 +1,22 @@
+version: "3"
+services:
+  django:
+    build: ./back_end
+    command: "python task_manager/manage.py runserver 0.0.0.0:8000"
+    ports:
+      - "8000:8000"
+  react:
+    build: ./front_end
+    command: "npm start --prefix task-manager/"
+    container_name: front
+    stdin_open: true
+    ports:
+      - "3000:3000"
+    depends_on: 
+      - django
+  server:
+    build: ./nginx
+    ports:
+      - "8080:80"
+    depends_on:
+      - django
